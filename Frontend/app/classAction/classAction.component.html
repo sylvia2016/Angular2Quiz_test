@@ -1,0 +1,37 @@
+﻿
+<div *ngIf="classId == undefined">
+    <h2>新增類別</h2>
+    <table>
+        <tr>
+            <td>
+                名稱：<input id="Text1" class="form-control" type="text" #inputClassName />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="Submit1" class="btn btn-primary" type="submit" value="儲存" (click)="addClass(inputClassName.value)" />
+                <input id="Button1" class="btn btn-default" type="button" value="取消" (click)="go('backToClassList')" />
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div *ngIf="classId != undefined">
+    <h2>修改類別</h2>
+    <table>
+        <tr>
+            <td>
+                名稱：<input id="Text1" class="form-control" type="text" value="{{aryClass.Name}}" #updateClassName />
+            </td>
+            <!--<td>
+                <input id="Hidden1" type="hidden" value="{{aryClass.Id}}" />
+            </td>-->
+        </tr>
+        <tr>
+            <td>
+                <input id="Submit1" class="btn btn-primary" type="submit" value="儲存" (click)="putData(classId, updateClassName.value)" />
+                <input id="Button1" class="btn btn-default" type="button" value="取消" (click)="go('backToClassList')" />
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,59 @@
+﻿<div *ngIf="contractId == undefined">
+    <h3>新增通訊錄</h3>
+    <br />
+    類別：
+    <label class="form-control" style="background-color:hsla(0, 0%, 71%, 0.46)">{{aryClass.Name}}</label>
+    <br />
+    姓名：
+    <input id="Text1" class="form-control" type="text" placeholder="姓名" #memName />
+    <br />
+    性別：
+    <select id="Select1" class="form-control" #memSex>
+        <option value="0">男</option>
+        <option value="1">女</option>
+    </select>
+    <br />
+    Email：
+    <input id="Text3" class="form-control" type="text" placeholder="Email" #memMail />
+    <br />
+    電話：
+    <input id="Text4" class="form-control" type="text" placeholder="電話" #memPhone />
+    <br />
+    地址：
+    <input id="Text5" class="form-control" type="text" placeholder="地址" #memAddress />
+    <br />
+
+    <input id="Submit1" class="btn btn-primary" type="submit" value="儲存" (click)="add(selectedId, memName.value, memSex.value, memMail.value, memPhone.value, memAddress.value)" />
+    <input id="Button1" class="btn btn-default" type="button" value="取消" (click)="go('backToMemberList')" />
+</div>
+
+<div *ngIf="contractId != undefined">
+    <h3>修改通訊錄</h3>
+    <br />
+    類別：
+    <label class="form-control" style="background-color:hsla(0, 0%, 71%, 0.46)"></label>
+    <br />
+    姓名：
+    <input id="Text6" class="form-control" type="text" #memName />
+    <br />
+    性別：
+    <select id="Select1" class="form-control" #memSex>
+        <option value="0">男</option>
+        <option value="1">女</option>
+    </select>
+    <br />
+    Email：
+    <input id="Text7" class="form-control" type="text" #memMail />
+    <br />
+    電話：
+    <input id="Text8" class="form-control" type="text" #memPhone />
+    <br />
+    地址：
+    <input id="Text9" class="form-control" type="text" #memAddress />
+    <br />
+
+    <input id="Submit1" class="btn btn-primary" type="submit" value="儲存" (click)="add(selectedId, memName.value, memSex.value, memMail.value, memPhone.value, memAddress.value)" />
+    <input id="Button1" class="btn btn-default" type="button" value="取消" (click)="go('backToMemberList')" />
+</div>
+
+{{contractId}}

@@ -1,0 +1,27 @@
+﻿<br />
+
+<table class="table">
+    <tr>
+        <td>名稱</td>
+        <td>性別</td>
+        <td>郵件</td>
+        <td>電話</td>
+        <td>地址</td>
+        <td></td>
+    </tr>
+    <tr *ngFor="let member of aryMember">
+        <td>{{member.Name}}</td>
+        <template [ngIf]="member.Sex == 0">
+            <td>男</td>
+        </template>
+        <template [ngIf]="member.Sex == 1">
+            <td>女</td>
+        </template>        
+        <td>{{member.Phone}}</td>
+        <td>{{member.Address}}</td>
+        <td>{{member.Email}}</td>
+        <td>
+            <input id="Submit1" type="submit" value="修改" (click)="modify(member.ContactId)" />
+        </td>
+    </tr>
+</table>
