@@ -13,6 +13,7 @@ export class ClassActionComponent implements OnInit {
     @Output() eventGo = new EventEmitter<string>();  //註冊事件
     @Input() classId: string = '';
     aryClass: any[] = [];
+    @Output() eventClear = new EventEmitter<string>();  //註冊事件
 
     constructor(private common: CommonService) {}
 
@@ -37,9 +38,11 @@ export class ClassActionComponent implements OnInit {
     }
 
     getClassById() {
-        this.common.getClassById(this.classId).subscribe((value: any) => {
-            this.aryClass = value;
-        })        
+        if (this.classId != '' && this.classId != undefined) {
+            this.common.getClassById(this.classId).subscribe((value: any) => {
+                this.aryClass = value;
+            });
+        }               
     }
 
     putData(classId: string, className: string) {
@@ -51,5 +54,21 @@ export class ClassActionComponent implements OnInit {
                 this.go('backToClassList');
             }
         );
+    }
+
+    deleteClass(classId: string, className: string) {
+
+        if (confirm('確定要將「' + className + '」刪除？') == true) {
+            this.common.deleteClass(classId)
+                .subscribe(
+                (data: any) => { },
+                (err: any) => { alert(err._body); },
+                () => {
+                    alert('刪除成功！');
+                    this.go('backToClassList');
+                    this.eventClear.emit('clearClassId');
+                }
+            );
+        }
     }
 }

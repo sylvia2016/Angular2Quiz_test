@@ -16,6 +16,7 @@ var ClassActionComponent = (function () {
         this.eventGo = new core_1.EventEmitter(); //註冊事件
         this.classId = '';
         this.aryClass = [];
+        this.eventClear = new core_1.EventEmitter(); //註冊事件
     }
     ClassActionComponent.prototype.ngOnInit = function () {
         this.getClassById();
@@ -32,9 +33,11 @@ var ClassActionComponent = (function () {
     };
     ClassActionComponent.prototype.getClassById = function () {
         var _this = this;
-        this.common.getClassById(this.classId).subscribe(function (value) {
-            _this.aryClass = value;
-        });
+        if (this.classId != '' && this.classId != undefined) {
+            this.common.getClassById(this.classId).subscribe(function (value) {
+                _this.aryClass = value;
+            });
+        }
     };
     ClassActionComponent.prototype.putData = function (classId, className) {
         var _this = this;
@@ -42,6 +45,17 @@ var ClassActionComponent = (function () {
             alert('修改成功！');
             _this.go('backToClassList');
         });
+    };
+    ClassActionComponent.prototype.deleteClass = function (classId, className) {
+        var _this = this;
+        if (confirm('確定要將「' + className + '」刪除？') == true) {
+            this.common.deleteClass(classId)
+                .subscribe(function (data) { }, function (err) { alert(err._body); }, function () {
+                alert('刪除成功！');
+                _this.go('backToClassList');
+                _this.eventClear.emit('clearClassId');
+            });
+        }
     };
     __decorate([
         core_1.Output(), 
@@ -52,6 +66,10 @@ var ClassActionComponent = (function () {
         core_1.Input(), 
         __metadata('design:type', String)
     ], ClassActionComponent.prototype, "classId", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], ClassActionComponent.prototype, "eventClear", void 0);
     ClassActionComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

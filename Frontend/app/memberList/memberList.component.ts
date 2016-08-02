@@ -16,7 +16,8 @@ export class MemberListComponent implements OnInit {
 
     constructor(private common: CommonService) {}
 
-    ngOnInit() {        
+    ngOnInit() {
+        //this.getMember();
     }
 
     ngOnChanges() {
@@ -24,9 +25,11 @@ export class MemberListComponent implements OnInit {
     }
 
     getMember() {
-        this.common.getMember(this.selectedId).subscribe((value: any) => {
-            this.aryMember = value;
-        })
+        if (this.selectedId != "") {
+            this.common.getMember(this.selectedId).subscribe((value: any) => {
+                this.aryMember = value;
+            })
+        }
     }
 
     modify(id: string) {

@@ -15,6 +15,7 @@ var SelectComponent = (function () {
         this.common = common;
         this.aryClass = [];
         this.eventThrowClassId = new core_1.EventEmitter(); //註冊事件
+        this.eventReload = new core_1.EventEmitter(); //註冊事件
     }
     SelectComponent.prototype.ngOnInit = function () {
         this.getClass();
@@ -23,6 +24,11 @@ var SelectComponent = (function () {
         var _this = this;
         this.common.getClass().subscribe(function (value) {
             _this.aryClass = value;
+            if (_this.aryClass.length > 0) {
+                _this.selectedId = _this.aryClass[0].ClassId;
+            }
+        }, function (err) { }, function () {
+            _this.eventThrowClassId.emit(_this.selectedId);
         });
     };
     SelectComponent.prototype.doselect = function () {
@@ -32,6 +38,11 @@ var SelectComponent = (function () {
         core_1.Output(), 
         __metadata('design:type', Object)
     ], SelectComponent.prototype, "eventThrowClassId", void 0);
+    __decorate([
+        //註冊事件
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], SelectComponent.prototype, "eventReload", void 0);
     SelectComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

@@ -14,13 +14,13 @@ require('rxjs/add/operator/map');
 var CommonService = (function () {
     function CommonService(http) {
         this.http = http;
-        this.apiUrlClass = 'http://172.16.3.85/Quiz/api/Class?userid=sylvia';
-        this.apiUrlMember = 'http://172.16.3.85/Quiz/api/Contact';
+        this.apiUrlClass = 'http://172.16.3.85/Quiz/api/Class';
+        this.apiUrlContact = 'http://172.16.3.85/Quiz/api/Contact';
     }
     CommonService.prototype.getClass = function () {
         var headers = new http_1.Headers({ 'Accept': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.get(this.apiUrlClass, options)
+        return this.http.get(this.apiUrlClass + '?userid=sylvia', options)
             .map(function (value) {
             return value.json();
         });
@@ -28,7 +28,7 @@ var CommonService = (function () {
     CommonService.prototype.getMember = function (classId) {
         var headers = new http_1.Headers({ 'Accept': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.get(this.apiUrlMember + '/byclass/' + classId, options)
+        return this.http.get(this.apiUrlContact + '/byclass/' + classId, options)
             .map(function (value) {
             return value.json();
         });
@@ -37,12 +37,12 @@ var CommonService = (function () {
         var headers = new http_1.Headers({ 'Accept': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
         postData = { Name: postData, UserId: 'sylvia' };
-        return this.http.post('http://172.16.3.85/Quiz/api/Class/', postData, options);
+        return this.http.post(this.apiUrlClass + '/', postData, options);
     };
     CommonService.prototype.getClassById = function (id) {
         var headers = new http_1.Headers({ 'Accept': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.get('http://172.16.3.85/Quiz/api/Class/' + id, options)
+        return this.http.get(this.apiUrlClass + '/' + id, options)
             .map(function (value) {
             return value.json();
         });
@@ -51,18 +51,31 @@ var CommonService = (function () {
         var headers = new http_1.Headers({ 'Accept': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
         updateData = { ClassId: id, Name: updateData, UserId: 'sylvia' };
-        console.log(updateData);
-        return this.http.put('http://172.16.3.85/Quiz/api/Class/' + id, updateData, options);
+        return this.http.put(this.apiUrlClass + '/' + id, updateData, options);
     };
     CommonService.prototype.postMember = function (postData) {
         var headers = new http_1.Headers({ 'Accept': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.post('http://172.16.3.85/Quiz/api/Contact', postData, options);
+        return this.http.post(this.apiUrlContact, postData, options);
+    };
+    CommonService.prototype.getMemberById = function (memberId) {
+        var headers = new http_1.Headers({ 'Accept': 'application/json' });
+        var options = new http_1.RequestOptions({ headers: headers });
+        return this.http.get(this.apiUrlContact + '/' + memberId, options)
+            .map(function (value) {
+            return value.json();
+        });
     };
     CommonService.prototype.updateMemberById = function (id, updateData) {
         var headers = new http_1.Headers({ 'Accept': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.put('http://172.16.3.85/Quiz/api/Contact/' + id, updateData, options);
+        return this.http.put(this.apiUrlContact + '/' + id, updateData, options);
+    };
+    CommonService.prototype.deleteClass = function (id) {
+        return this.http.delete(this.apiUrlClass + '/' + id);
+    };
+    CommonService.prototype.deleteMember = function (id) {
+        return this.http.delete(this.apiUrlContact + '/' + id);
     };
     CommonService = __decorate([
         core_1.Injectable(), 

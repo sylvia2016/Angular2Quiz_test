@@ -1,4 +1,5 @@
-﻿<div *ngIf="contractId == undefined">
+﻿<div *ngIf="contractId == ''">
+
     <h3>新增通訊錄</h3>
     <br />
     類別：
@@ -27,33 +28,54 @@
     <input id="Button1" class="btn btn-default" type="button" value="取消" (click)="go('backToMemberList')" />
 </div>
 
-<div *ngIf="contractId != undefined">
+<div *ngIf="contractId != ''">
     <h3>修改通訊錄</h3>
     <br />
     類別：
-    <label class="form-control" style="background-color:hsla(0, 0%, 71%, 0.46)"></label>
+    <label class="form-control" style="background-color:hsla(0, 0%, 71%, 0.46)">{{aryModifyClass.Name}}</label>
     <br />
     姓名：
-    <input id="Text6" class="form-control" type="text" #memName />
+    <input id="Text6" class="form-control" type="text" #updateMemName value="{{aryMemberData.Name}}" />
     <br />
     性別：
-    <select id="Select1" class="form-control" #memSex>
+    <!--<div [ngSwitch]="aryMemberData.Sex">
+        <select id="Select1" class="form-control" #updateMemSex>
+            <option value="0" *ngSwitchCase="0">男</option>
+            <option value="1" *ngSwitchCase="1">女</option>
+        </select>
+    </div>-->
+    <select id="Select1" class="form-control" #updateMemSex>
         <option value="0">男</option>
         <option value="1">女</option>
     </select>
-    <br />
-    Email：
-    <input id="Text7" class="form-control" type="text" #memMail />
-    <br />
-    電話：
-    <input id="Text8" class="form-control" type="text" #memPhone />
-    <br />
-    地址：
-    <input id="Text9" class="form-control" type="text" #memAddress />
-    <br />
+    <!--{{aryMemberData.Sex}}
+    <div [ngSwitch]="aryMemberData.Sex">
+        <template *ngSwitchCase="0">
+            <select id="Select1" class="form-control" #updateMemSex>
+                <option value="0">男</option>
+                <option value="1">女</option>
+            </select>
+        </template>
+        <template *ngSwitchCase="1">
+            <select id="Select1" class="form-control" #updateMemSex>
+                <option value="0">男</option>
+                <option value="1">女</option>
+            </select>
+        </template>
+    </div>-->
 
-    <input id="Submit1" class="btn btn-primary" type="submit" value="儲存" (click)="add(selectedId, memName.value, memSex.value, memMail.value, memPhone.value, memAddress.value)" />
-    <input id="Button1" class="btn btn-default" type="button" value="取消" (click)="go('backToMemberList')" />
+        <br />
+        Email：
+        <input id="Text7" class="form-control" type="text" #updateMemMail value="{{aryMemberData.Email}}" />
+        <br />
+        電話：
+        <input id="Text8" class="form-control" type="text" #updateMemPhone value="{{aryMemberData.Phone}}" />
+        <br />
+        地址：
+        <input id="Text9" class="form-control" type="text" #updateMemAddress value="{{aryMemberData.Address}}" />
+        <br />
+
+        <input id="Submit1" class="btn btn-primary" type="submit" value="儲存" (click)="putData(aryMemberData.ContactId, aryMemberData.ClassId, updateMemName.value, updateMemSex.value, updateMemMail.value, updateMemPhone.value, updateMemAddress.value)" />
+        <input id="Submit1" class="btn btn-danger" type="submit" value="刪除" (click)="deleteMember(aryMemberData.ContactId, aryMemberData.Name)" />
+        <input id="Button1" class="btn btn-default" type="button" value="取消" (click)="go('backToMemberList')" />
 </div>
-
-{{contractId}}

@@ -15,8 +15,12 @@ var MemberActionComponent = (function () {
         this.common = common;
         this.aryClass = [];
         this.eventGo = new core_1.EventEmitter(); //註冊事件
+        this.aryMemberData = [];
+        this.aryModifyClass = [];
+        this.a = '';
     }
     MemberActionComponent.prototype.ngOnInit = function () {
+        this.getMemberById();
         this.getClassById();
     };
     MemberActionComponent.prototype.getClassById = function () {
@@ -43,6 +47,41 @@ var MemberActionComponent = (function () {
         });
     };
     MemberActionComponent.prototype.getMemberById = function () {
+        var _this = this;
+        if (this.contractId) {
+            this.common.getMemberById(this.contractId).subscribe(function (value) {
+                _this.aryMemberData = value;
+                _this.common.getClassById(value.ClassId).subscribe(function (value) {
+                    _this.aryModifyClass = value;
+                });
+            });
+        }
+    };
+    MemberActionComponent.prototype.putData = function (contractId, classId, name, sex, mail, phone, address) {
+        var _this = this;
+        var obj = {
+            ContactId: contractId,
+            ClassId: classId,
+            Name: name,
+            Sex: sex,
+            Phone: phone,
+            Address: address,
+            Email: mail
+        };
+        this.common.updateMemberById(contractId, obj).subscribe(function (data) { }, function (err) { alert(err._body); }, function () {
+            alert('修改成功！');
+            _this.go('backToMemberList');
+        });
+    };
+    MemberActionComponent.prototype.deleteMember = function (contractId, name) {
+        var _this = this;
+        if (confirm('確定要將「' + name + '」刪除？') == true) {
+            this.common.deleteMember(contractId)
+                .subscribe(function (data) { }, function (err) { alert(err._body); }, function () {
+                alert('刪除成功！');
+                _this.go('backToMemberList');
+            });
+        }
     };
     __decorate([
         core_1.Input(), 
@@ -69,4 +108,9 @@ var MemberActionComponent = (function () {
     return MemberActionComponent;
 }());
 exports.MemberActionComponent = MemberActionComponent;
+var Member = (function () {
+    function Member() {
+    }
+    return Member;
+}());
 //# sourceMappingURL=memberAction.component.js.map

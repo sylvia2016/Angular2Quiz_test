@@ -9,17 +9,31 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Backend.Models;
+using System.Web.Http.Cors;
 
 namespace Backend.Controllers
 {
+    [EnableCors(
+            origins: "*",
+            headers: "*",
+            methods: "*")]
     public class ContactsController : ApiController
     {
         private QuizEntities db = new QuizEntities();
 
         // GET: api/Contacts
-        public IQueryable<Contact> GetContact()
+        [Route("api/Contacts/byclass/{classid}")]
+        public IQueryable<Contact> GetContact(string classId)
         {
-            return db.Contact;
+            Guid guid = Guid.Parse(classId);
+            IQueryable<Contact> dt = db.Contact.AsNoTracking();
+
+            if(guid != null)
+            {
+                dt = dt.Where(p => p.ClassId == guid);
+            }
+
+            return dt;
         }
 
         // GET: api/Contacts/5
@@ -72,8 +86,17 @@ namespace Backend.Controllers
 
         // POST: api/Contacts
         [ResponseType(typeof(Contact))]
-        public IHttpActionResult PostContact(Contact contact)
+        public IHttpActionResult PostContact(ContactPostViewModel contactPostViewModel)
         {
+            Contact contact = new Contact();
+            contact.ContactId = Guid.NewGuid();
+            contact.ClassId = contactPostViewModel.ClassId;
+            contact.Name = contactPostViewModel.Name;
+            contact.Sex = contactPostViewModel.Sex;
+            contact.Phone = contactPostViewModel.Phone;
+            contact.Address = contactPostViewModel.Address;
+            contact.Email = contactPostViewModel.Email;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

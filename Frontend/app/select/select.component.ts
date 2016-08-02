@@ -12,6 +12,8 @@ export class SelectComponent implements OnInit {
     aryClass: any[] = [];
     selectedId: string;
     @Output() eventThrowClassId = new EventEmitter<string>();  //註冊事件
+    @Output() eventReload = new EventEmitter<string>();  //註冊事件
+
 
     constructor(private common: CommonService) {}
 
@@ -22,6 +24,11 @@ export class SelectComponent implements OnInit {
     getClass() {
         this.common.getClass().subscribe((value: any) => {
             this.aryClass = value;
+            if (this.aryClass.length > 0) {                
+                this.selectedId = this.aryClass[0].ClassId;
+            }
+        }, (err: any) => { }, () => {
+            this.eventThrowClassId.emit(this.selectedId)
         })
     }
 

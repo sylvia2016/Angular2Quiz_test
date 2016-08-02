@@ -17,20 +17,22 @@ export class ClassListComponent implements OnInit {
 
     ngOnInit() {
         this.getClass();
-  }
+    }
 
-  go(status: string) {
-      this.eventGo.emit(status);   
-  }
+    go(status: string) {
+        this.eventGo.emit(status); 
+        this.eventThrowId.emit('');  
+    }
 
-  getClass() {
-      this.common.getClass().subscribe((value: any) => {
-          this.aryClass = value;
-      })
-  }
+    getClass() {
+        this.common.getClass().subscribe((value: any) => {
+            this.aryClass = value;
+        })
+    }
 
-  modify(id: any) {
-      this.eventThrowId.emit(id);
-      this.go('goToClassAction');
-  }
+    modify(id: any) {
+        this.eventThrowId.emit(id);
+        this.eventGo.emit('goToClassAction');
+        //this.go('goToClassAction');
+    }
 }

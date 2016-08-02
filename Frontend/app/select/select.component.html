@@ -1,3 +1,3 @@
 <select id="Select1" class="form-control" [(ngModel)]="selectedId" (ngModelChange)="doselect()">
-    <option *ngFor="let class of aryClass" value="{{class.ClassId}}">{{class.Name}}</option>
+    <option *ngFor="let class of aryClass" [value]="class.ClassId" >{{class.Name}}</option>
 </select>

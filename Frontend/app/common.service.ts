@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class CommonService {
 
-    apiUrlClass: string = 'http://172.16.3.85/Quiz/api/Class?userid=sylvia';
-    apiUrlMember: string = 'http://172.16.3.85/Quiz/api/Contact';
+    apiUrlClass: string = 'http://172.16.3.85/Quiz/api/Class';
+    apiUrlContact: string = 'http://172.16.3.85/Quiz/api/Contact';
 
     constructor(private http: Http) {}
 
@@ -16,7 +16,7 @@ export class CommonService {
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.apiUrlClass, options)
+        return this.http.get(this.apiUrlClass + '?userid=sylvia', options)
             .map((value: any) => {
                 return value.json();
             });
@@ -27,21 +27,18 @@ export class CommonService {
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.apiUrlMember + '/byclass/' + classId, options)
+        return this.http.get(this.apiUrlContact + '/byclass/' + classId, options)
             .map((value: any) => {
                 return value.json();
             });
     }
-
-
+    
     postClass(postData: any) {
-
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-
+        
         postData = { Name: postData, UserId: 'sylvia' };
-
-        return this.http.post('http://172.16.3.85/Quiz/api/Class/', postData, options);
+        return this.http.post(this.apiUrlClass + '/', postData, options);
     }
 
     getClassById(id: any) {
@@ -49,7 +46,7 @@ export class CommonService {
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get('http://172.16.3.85/Quiz/api/Class/' + id, options)
+        return this.http.get(this.apiUrlClass + '/' + id, options)
             .map((value: any) => {
                 return value.json();
             });
@@ -61,17 +58,26 @@ export class CommonService {
         let options = new RequestOptions({ headers: headers });
 
         updateData = { ClassId: id, Name: updateData, UserId: 'sylvia' };
-        console.log(updateData);
-        return this.http.put('http://172.16.3.85/Quiz/api/Class/' + id, updateData, options);
+        return this.http.put(this.apiUrlClass + '/' + id, updateData, options);
     }
 
 
     postMember(postData: any) {
-
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post('http://172.16.3.85/Quiz/api/Contact', postData, options);
+        return this.http.post(this.apiUrlContact, postData, options);
+    }
+
+    getMemberById(memberId: string) {
+
+        let headers = new Headers({ 'Accept': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        
+        return this.http.get(this.apiUrlContact + '/' + memberId, options)
+            .map((value: any) => {
+                return value.json();
+            });
     }
 
     updateMemberById(id: string, updateData: any) {
@@ -79,18 +85,15 @@ export class CommonService {
         let headers = new Headers({ 'Accept': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.put('http://172.16.3.85/Quiz/api/Contact/' + id, updateData, options);
+        return this.http.put(this.apiUrlContact + '/' + id, updateData, options);
     }
 
+    deleteClass(id: string) {
 
+        return this.http.delete(this.apiUrlClass + '/' + id);
+    }
 
-
-
-
-
-
-
-    //deleteFood(id: number) {
-    //    return this.http.delete(this.apiUrl + '/' + id);
-    //}
+    deleteMember(id: string) {
+        return this.http.delete(this.apiUrlContact + '/' + id);
+    }
 }

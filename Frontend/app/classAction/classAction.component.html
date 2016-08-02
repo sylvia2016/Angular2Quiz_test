@@ -1,5 +1,5 @@
 ﻿
-<div *ngIf="classId == undefined">
+<div *ngIf="classId == ''">
     <h2>新增類別</h2>
     <table>
         <tr>
@@ -16,7 +16,7 @@
     </table>
 </div>
 
-<div *ngIf="classId != undefined">
+<div *ngIf="classId != ''">
     <h2>修改類別</h2>
     <table>
         <tr>
@@ -30,6 +30,7 @@
         <tr>
             <td>
                 <input id="Submit1" class="btn btn-primary" type="submit" value="儲存" (click)="putData(classId, updateClassName.value)" />
+                <input id="Submit1" class="btn btn-danger" type="submit" value="刪除" (click)="deleteClass(classId, aryClass.Name)" />
                 <input id="Button1" class="btn btn-default" type="button" value="取消" (click)="go('backToClassList')" />
             </td>
         </tr>

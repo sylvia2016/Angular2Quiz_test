@@ -17,15 +17,18 @@ var MemberListComponent = (function () {
         this.eventThrowId = new core_1.EventEmitter(); //註冊事件
     }
     MemberListComponent.prototype.ngOnInit = function () {
+        //this.getMember();
     };
     MemberListComponent.prototype.ngOnChanges = function () {
         this.getMember();
     };
     MemberListComponent.prototype.getMember = function () {
         var _this = this;
-        this.common.getMember(this.selectedId).subscribe(function (value) {
-            _this.aryMember = value;
-        });
+        if (this.selectedId != "") {
+            this.common.getMember(this.selectedId).subscribe(function (value) {
+                _this.aryMember = value;
+            });
+        }
     };
     MemberListComponent.prototype.modify = function (id) {
         this.eventThrowId.emit(id);

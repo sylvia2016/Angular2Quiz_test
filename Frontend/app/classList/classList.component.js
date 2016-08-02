@@ -22,6 +22,7 @@ var ClassListComponent = (function () {
     };
     ClassListComponent.prototype.go = function (status) {
         this.eventGo.emit(status);
+        this.eventThrowId.emit('');
     };
     ClassListComponent.prototype.getClass = function () {
         var _this = this;
@@ -31,7 +32,8 @@ var ClassListComponent = (function () {
     };
     ClassListComponent.prototype.modify = function (id) {
         this.eventThrowId.emit(id);
-        this.go('goToClassAction');
+        this.eventGo.emit('goToClassAction');
+        //this.go('goToClassAction');
     };
     __decorate([
         core_1.Output(), 

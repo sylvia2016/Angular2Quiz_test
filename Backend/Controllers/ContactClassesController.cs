@@ -9,17 +9,25 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Backend.Models;
+using System.Web.Http.Cors;
 
 namespace Backend.Controllers
 {
+    [EnableCors(
+            origins: "*",
+            headers: "*",
+            methods: "*")]
     public class ContactClassesController : ApiController
     {
         private QuizEntities db = new QuizEntities();
 
         // GET: api/ContactClasses
-        public IQueryable<ContactClass> GetContactClass()
+        public IQueryable<ContactClass> GetContactClass(string userid)
         {
-            return db.ContactClass;
+            if (!string.IsNullOrEmpty(userid))
+                return db.ContactClass.Where(p => p.UserId == userid);
+            else
+                return null;
         }
 
         // GET: api/ContactClasses/5
@@ -72,8 +80,14 @@ namespace Backend.Controllers
 
         // POST: api/ContactClasses
         [ResponseType(typeof(ContactClass))]
-        public IHttpActionResult PostContactClass(ContactClass contactClass)
+        public IHttpActionResult PostContactClass(ClassPostViewModel classPostViewModel)
         {
+            ContactClass contactClass = new ContactClass();
+
+            contactClass.ClassId = Guid.NewGuid();
+            contactClass.Name = classPostViewModel.Name;
+            contactClass.UserId = classPostViewModel.UserId;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -108,6 +122,26 @@ namespace Backend.Controllers
             if (contactClass == null)
             {
                 return NotFound();
+            }
+
+            //抓取該類別底下的聯絡人
+            IQueryable<Contact> members = db.Contact;
+            if (id != null)
+            {
+               members = members.Where(p => p.ClassId == id);
+            }
+
+            if(members != null)
+            {
+                foreach (Contact member in members)
+                {
+                    Contact contact = db.Contact.Find(member.ContactId);
+
+                    if (contact != null)
+                    {
+                        db.Contact.Remove(contact);
+                    }
+                }
             }
 
             db.ContactClass.Remove(contactClass);
